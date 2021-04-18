@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
@@ -27,23 +28,24 @@ namespace WebApi.Extensions
                         Url = new Uri("https://codewithmukesh.com/contact"),
                     }
                 });
+                var schema = JwtBearerDefaults.AuthenticationScheme;
                 var securitySchema = new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer",
+                    //Type = SecuritySchemeType.Http,
+                    Scheme = schema,
                     Reference = new OpenApiReference
                     {
                         Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
+                        Id = schema
                     }
                 };
-                c.AddSecurityDefinition("Bearer", securitySchema);
+                c.AddSecurityDefinition(schema, securitySchema);
 
                 var securityRequirement = new OpenApiSecurityRequirement();
-                securityRequirement.Add(securitySchema, new[] { "Bearer" });
+                securityRequirement.Add(securitySchema, new[] { schema });
                 c.AddSecurityRequirement(securityRequirement);
             });
         }

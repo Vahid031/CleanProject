@@ -143,7 +143,7 @@ namespace Infrastructure.Identity.Services
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: _dateTimeService.NowUtc.AddMinutes(_jwtSettings.DurationInMinutes),
+                expires: _dateTimeService.NowUtc.AddMinutes(30),
                 signingCredentials: signingCredentials);
             return jwtSecurityToken;
         }

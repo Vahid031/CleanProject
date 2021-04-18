@@ -1,23 +1,15 @@
-﻿using Application.Exceptions;
-using Application.Interfaces;
-using Application.Wrappers;
+﻿using Application.Interfaces;
 using Domain.Settings;
 using Infrastructure.Identity.Contexts;
-using Infrastructure.Identity.Helpers;
 using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
@@ -42,7 +34,12 @@ namespace Infrastructure.Identity
             services.AddTransient<IAccountService, AccountService>();
             #endregion
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }
+            )
                 .AddJwtBearer(options =>
                 {
                     //options.RequireHttpsMetadata = false;
