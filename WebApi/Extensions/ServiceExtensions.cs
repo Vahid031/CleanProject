@@ -15,7 +15,7 @@ namespace WebApi.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.IncludeXmlComments(string.Format(@"{0}\CleanArchitecture.WebApi.xml", System.AppDomain.CurrentDomain.BaseDirectory));
+                c.IncludeXmlComments(string.Format(@"{0}\CleanArchitecture.WebApi.xml", AppDomain.CurrentDomain.BaseDirectory));
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -28,24 +28,24 @@ namespace WebApi.Extensions
                         Url = new Uri("https://codewithmukesh.com/contact"),
                     }
                 });
-                var schema = JwtBearerDefaults.AuthenticationScheme;
+
                 var securitySchema = new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    //Type = SecuritySchemeType.Http,
-                    Scheme = schema,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
                     Reference = new OpenApiReference
                     {
                         Type = ReferenceType.SecurityScheme,
-                        Id = schema
+                        Id = JwtBearerDefaults.AuthenticationScheme
                     }
                 };
-                c.AddSecurityDefinition(schema, securitySchema);
+                c.AddSecurityDefinition(securitySchema.Reference.Id, securitySchema);
 
                 var securityRequirement = new OpenApiSecurityRequirement();
-                securityRequirement.Add(securitySchema, new[] { schema });
+                securityRequirement.Add(securitySchema, Array.Empty<string>());
                 c.AddSecurityRequirement(securityRequirement);
             });
         }
