@@ -15,7 +15,7 @@ namespace WebApi.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.IncludeXmlComments(string.Format(@"{0}\CleanArchitecture.WebApi.xml", AppDomain.CurrentDomain.BaseDirectory));
+                //c.IncludeXmlComments(string.Format(@"{0}\CleanArchitecture.WebApi.xml", AppDomain.CurrentDomain.BaseDirectory));
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -23,18 +23,20 @@ namespace WebApi.Extensions
                     Description = "This Api will be responsible for overall data distribution and authorization.",
                     Contact = new OpenApiContact
                     {
-                        Name = "codewithmukesh",
-                        Email = "hello@codewithmukesh.com",
-                        Url = new Uri("https://codewithmukesh.com/contact"),
+                        Name = "Vahid Goodarzi",
+                        Email = "vahid031@yahoo.com",
+                        Url = new Uri("http://Vahid031.ir"),
                     }
                 });
 
+
                 var securitySchema = new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT",
                     Scheme = JwtBearerDefaults.AuthenticationScheme,
                     Reference = new OpenApiReference
                     {
